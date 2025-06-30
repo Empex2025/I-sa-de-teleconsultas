@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ContactRepository } from '../../../repositories/Contact';
-import { PropsContact } from '../../../interfaces/contact';
+import { PropsContact } from '../../../interfaces/clinic';
 
 async function SetContactController(req: Request, res: Response) {
   const body = req.body;

@@ -23,7 +23,7 @@ export class Usuario {
   @Column({ length: 255, nullable: true })
   ft_perfil: string;
 
-  @Column({ length: 255 })
+  @Column({ length: 255, select: false, type: 'text' })
   senha_hash: string;
 
   @Column({ default: false })

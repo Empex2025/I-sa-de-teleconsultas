@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ContactRepository } from '../../../repositories/Contact';
-import { PropsContact } from '../../../interfaces/contact';
+import { PropsContact } from '../../../interfaces/clinic';
 
 async function GetContactController(req: Request, res: Response) {
   const query = req.query;

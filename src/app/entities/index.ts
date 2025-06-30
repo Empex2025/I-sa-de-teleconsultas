@@ -6,7 +6,7 @@ import { Documento } from './Documento';
 import { ExamAgendamento } from './ExamAgendamento';
 import { ExamPayment } from './ExamPayment';
 import { Usuario } from './Usuario';
-
+import { ConexaoProfissionalClinica } from './ConexaoProfissionalClinica';
 
 export {
   AgendamentoConsulta,
@@ -17,4 +17,5 @@ export {
   ExamAgendamento,
   ExamPayment,
   Usuario,
+  ConexaoProfissionalClinica
 };
