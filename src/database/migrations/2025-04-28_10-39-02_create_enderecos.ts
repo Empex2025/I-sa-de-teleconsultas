@@ -6,7 +6,7 @@ export class createEnderecosTable20250611 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE enderecos (
         id_endereco SERIAL PRIMARY KEY,
-        id_clinic INTEGER REFERENCES clinics(id_clinica),
+        id_clinica INTEGER,
         cep VARCHAR(8) NOT NULL,
         logradouro VARCHAR(255) NOT NULL,
         numero VARCHAR(10),
@@ -16,7 +16,10 @@ export class createEnderecosTable20250611 implements MigrationInterface {
         estado VARCHAR(2) NOT NULL,
         pais VARCHAR(50) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+        CONSTRAINT fk_endereco_clinica FOREIGN KEY (id_clinica)
+          REFERENCES clinics(id_clinica) ON DELETE CASCADE
       );
     `);
   }
@@ -25,5 +28,3 @@ export class createEnderecosTable20250611 implements MigrationInterface {
     await queryRunner.query('DROP TABLE enderecos');
   }
 }
-
-

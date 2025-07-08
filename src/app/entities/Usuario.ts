@@ -1,4 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, UpdateDateColumn } from 'typeorm';
+import { AgendamentoConsulta } from './AgendamentoConsulta';
+import { ConexaoProfissionalClinica } from './ConexaoProfissionalClinica';
+import { Documento } from './Documento';
+import { ExamAgendamento } from './ExamAgendamento';
 
 @Entity('usuario')
 export class Usuario {
@@ -16,9 +20,6 @@ export class Usuario {
 
   @Column({ length: 50, nullable: true })
   genero: string;
-
-  @Column({ length: 11, unique: true })
-  cpf: string;
 
   @Column({ length: 255, nullable: true })
   ft_perfil: string;
@@ -38,6 +39,27 @@ export class Usuario {
   @Column({ length: 500, nullable: true })
   descricao_bio: string;
 
+  @OneToMany(() => AgendamentoConsulta, ag => ag.paciente)
+  agendamentos_paciente: AgendamentoConsulta[];
+
+  @OneToMany(() => AgendamentoConsulta, ag => ag.profissional)
+  agendamentos_profissional: AgendamentoConsulta[];
+
+  @OneToMany(() => ConexaoProfissionalClinica, conexao => conexao.profissional)
+  conexoes_clinicas: ConexaoProfissionalClinica[];
+
+  @OneToMany(() => Documento, doc => doc.profissional)
+  documentos_enviados: Documento[];
+
+  @OneToMany(() => Documento, doc => doc.paciente)
+  documentos_recebidos: Documento[];
+
+  @OneToMany(() => ExamAgendamento, ag => ag.paciente)
+  exames_agendados: ExamAgendamento[];
+
   @CreateDateColumn()
-  criado_em: Date;
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

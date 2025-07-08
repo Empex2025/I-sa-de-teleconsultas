@@ -6,8 +6,8 @@ export class createExamAgendamentosTable20250611 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE exam_agendamentos (
         id_agendamento SERIAL PRIMARY KEY,
-        id_usuario_paciente INTEGER NOT NULL REFERENCES usuario(id_usuario),
-        id_exame INTEGER NOT NULL REFERENCES clinic_exams(id_exame),
+        id_usuario_paciente INTEGER NOT NULL,
+        id_exame INTEGER NOT NULL,
         data_hora TIMESTAMP NOT NULL,
         status_pagamento VARCHAR(20) DEFAULT 'Pendente',
         lembrete_enviado BOOLEAN DEFAULT FALSE,
@@ -16,9 +16,18 @@ export class createExamAgendamentosTable20250611 implements MigrationInterface {
         pressao_sistolica INTEGER,
         pressao_diastolica INTEGER,
         atualizar_minha_saude BOOLEAN DEFAULT FALSE,
-        id_pagamento INT REFERENCES exam_payments(id_pagamento),
+        id_pagamento INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+        CONSTRAINT fk_exam_agendamento_paciente FOREIGN KEY (id_usuario_paciente)
+          REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+
+        CONSTRAINT fk_exam_agendamento_exame FOREIGN KEY (id_exame)
+          REFERENCES clinic_exams(id_exame) ON DELETE CASCADE,
+
+        CONSTRAINT fk_exam_agendamento_pagamento FOREIGN KEY (id_pagamento)
+          REFERENCES exam_payments(id_pagamento) ON DELETE SET NULL
       );
     `);
   }
@@ -27,5 +36,3 @@ export class createExamAgendamentosTable20250611 implements MigrationInterface {
     await queryRunner.query('DROP TABLE exam_agendamentos');
   }
 }
-
-

@@ -11,7 +11,7 @@ export class createExamPaymentsTable20250611 implements MigrationInterface {
         valor NUMERIC(10,2) NOT NULL CHECK (valor >= 0),
         parcelas INTEGER,
         status VARCHAR(20) DEFAULT 'Confirmado',
-        data_pagamento TIMESTAMP DEFAULT NOW(),
+        data_pagamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
@@ -21,5 +21,3 @@ export class createExamPaymentsTable20250611 implements MigrationInterface {
     await queryRunner.query('DROP TABLE exam_payments');
   }
 }
-
-

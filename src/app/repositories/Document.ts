@@ -2,6 +2,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { Documento } from '../entities';
 import dataSource from '../../database/typeorm';
 import { IDocumentoRepository } from '../interfaces/repositories/documentoRepository';
+import { IDocumento } from '../interfaces/documento';
 
 export class DocumentoRepository implements IDocumentoRepository {
   private repository: Repository<Documento>;
@@ -16,23 +17,23 @@ export class DocumentoRepository implements IDocumentoRepository {
   }
 
   async findAll(): Promise<Documento[]> {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['paciente', 'profissional', 'consulta'] });
   }
 
   async findById(id_documento: number): Promise<Documento | null> {
-    return await this.repository.findOneBy({ id_documento });
+    return await this.repository.findOne({ where: { id_documento }, relations: ['paciente', 'profissional', 'consulta'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
   ): Promise<Documento[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['paciente', 'profissional', 'consulta'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
   ): Promise<Documento | undefined> {
-    return await this.repository.findOneBy(query);
+    return await this.repository.findOne({ where: { ...query }, relations: ['paciente', 'profissional', 'consulta'] });
   }
 
   async update(id_documento: number, data: Partial<Documento>) {

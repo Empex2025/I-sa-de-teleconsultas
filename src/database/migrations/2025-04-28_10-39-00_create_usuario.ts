@@ -10,7 +10,6 @@ export class createUsuarioTable20250611 implements MigrationInterface {
         cpfcnpj VARCHAR(14) NOT NULL,
         nome VARCHAR(255) NOT NULL,
         genero VARCHAR(50),
-        cpf VARCHAR(11) UNIQUE NOT NULL,
         ft_perfil VARCHAR(255),
         senha_hash VARCHAR(255) NOT NULL,
         is_verificado BOOLEAN NOT NULL DEFAULT FALSE,

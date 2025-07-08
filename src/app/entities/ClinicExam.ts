@@ -1,11 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column,UpdateDateColumn,CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  UpdateDateColumn,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId
+} from 'typeorm';
+import { Clinic } from './Clinic';
 
 @Entity('clinic_exams')
 export class ClinicExam {
   @PrimaryGeneratedColumn()
   id_exame: number;
 
-  @Column()
+  @ManyToOne(() => Clinic, clinic => clinic.exames)
+  @JoinColumn({ name: 'id_clinica' })
+  clinica: Clinic;
+
+  @RelationId((exam: ClinicExam) => exam.clinica)
   id_clinica: number;
 
   @Column({ length: 100 })

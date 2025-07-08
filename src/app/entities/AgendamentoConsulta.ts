@@ -1,17 +1,40 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId
+} from 'typeorm';
+import { Usuario } from './Usuario';
+import { Clinic } from './Clinic';
 
 @Entity('agendamentos_consultas')
 export class AgendamentoConsulta {
   @PrimaryGeneratedColumn()
   id_consulta: number;
 
-  @Column()
+  @ManyToOne(() => Usuario, { eager: false })
+  @JoinColumn({ name: 'id_usuario_paciente' })
+  paciente: Usuario;
+
+  @RelationId((consulta: AgendamentoConsulta) => consulta.paciente)
   id_usuario_paciente: number;
 
-  @Column()
+  @ManyToOne(() => Usuario, { eager: false })
+  @JoinColumn({ name: 'id_usuario_profissional' })
+  profissional: Usuario;
+
+  @RelationId((consulta: AgendamentoConsulta) => consulta.profissional)
   id_usuario_profissional: number;
 
-  @Column()
+  @ManyToOne(() => Clinic, { eager: false })
+  @JoinColumn({ name: 'id_clinica' })
+  clinica: Clinic;
+
+  @RelationId((consulta: AgendamentoConsulta) => consulta.clinica)
   id_clinica: number;
 
   @Column('timestamp')

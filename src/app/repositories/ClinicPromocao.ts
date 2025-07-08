@@ -2,9 +2,9 @@ import { Repository, FindOptionsWhere } from 'typeorm';
 import dataSource from '../../database/typeorm';
 import { ClinicPromotion } from '../entities';
 import { IClinicPromotion } from '../interfaces/clinic';
-import { IClinicPromotionRepository} from '../interfaces/repositories/clinicRepository';
+import { IClinicPromotionRepository } from '../interfaces/repositories/clinicRepository';
 
-export class ClinicPromocaoRepository implements IClinicPromotionRepository{
+export class ClinicPromocaoRepository implements IClinicPromotionRepository {
   private repository: Repository<ClinicPromotion> = dataSource.getRepository(ClinicPromotion);
 
   async save(data: IClinicPromotion) {
@@ -13,23 +13,23 @@ export class ClinicPromocaoRepository implements IClinicPromotionRepository{
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['clinica'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOneBy({ id_promocao: id });
+    return await this.repository.findOne({ where: { id_promocao: id }, relations: ['clinica'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<IClinicPromotion> | FindOptionsWhere<IClinicPromotion>[],
   ): Promise<ClinicPromotion[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['clinica'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IClinicPromotion> | FindOptionsWhere<IClinicPromotion>[],
   ): Promise<ClinicPromotion | undefined> {
-    return await this.repository.findOneBy(query);
+    return await this.repository.findOne({ where: { ...query }, relations: ['clinica'] });
   }
 
   async update(id: number, data: Partial<IClinicPromotion>) {

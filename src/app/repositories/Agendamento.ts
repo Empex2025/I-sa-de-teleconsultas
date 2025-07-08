@@ -13,23 +13,27 @@ export class AgendamentoConsultaRepository implements IAgendamentoConsultaReposi
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['paciente', 'clinica', 'profissional'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOneBy({ id_consulta: id });
+    return await this.repository.findOne({
+      where: { id_consulta: id },
+      relations: ['pacient', 'clinica', 'profissional'],
+    });;
   }
 
   async findByQuery(
     query: FindOptionsWhere<IAgendamentoConsulta> | FindOptionsWhere<IAgendamentoConsulta>[],
   ): Promise<AgendamentoConsulta[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['pacient', 'clinica', 'profissional'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IAgendamentoConsulta> | FindOptionsWhere<IAgendamentoConsulta>[],
   ): Promise<AgendamentoConsulta | undefined> {
-    return await this.repository.findOneBy(query);
+    const response = await this.repository.findOne({ where: { ...query }, relations: ['pacient', 'clinica', 'profissional'] });
+    return response
   }
 
   async update(id: number, data: Partial<IAgendamentoConsulta>) {

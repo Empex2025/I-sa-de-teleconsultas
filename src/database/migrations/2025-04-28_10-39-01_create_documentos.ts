@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class createDocumentosTable20250611 implements MigrationInterface {
@@ -8,14 +7,25 @@ export class createDocumentosTable20250611 implements MigrationInterface {
         id_documento SERIAL PRIMARY KEY,
         tipo VARCHAR(50) NOT NULL,
         url_arquivo VARCHAR(255) NOT NULL,
-        dt_upload TIMESTAMP DEFAULT NOW(),
+        dt_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         criado_na_plataforma BOOLEAN NOT NULL,
-        consulta_id INT NOT NULL REFERENCES agendamentos_consultas(id_consulta),
-        profissional_id VARCHAR(11) REFERENCES usuario(cpf),
-        paciente_id VARCHAR(11) NOT NULL REFERENCES usuario(cpf),
+
+        consulta_id INTEGER NOT NULL,
+        profissional_id VARCHAR(11),
+        paciente_id VARCHAR(11) NOT NULL,
+
         visivel_paciente BOOLEAN DEFAULT TRUE,
         observacoes TEXT,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+        CONSTRAINT fk_documento_consulta FOREIGN KEY (consulta_id)
+          REFERENCES agendamentos_consultas(id_consulta) ON DELETE CASCADE,
+
+        CONSTRAINT fk_documento_profissional FOREIGN KEY (profissional_id)
+          REFERENCES usuario(cpfcnpj) ON DELETE SET NULL,
+
+        CONSTRAINT fk_documento_paciente FOREIGN KEY (paciente_id)
+          REFERENCES usuario(cpfcnpj) ON DELETE CASCADE
       );
     `);
   }
@@ -24,4 +34,3 @@ export class createDocumentosTable20250611 implements MigrationInterface {
     await queryRunner.query('DROP TABLE documentos');
   }
 }
-

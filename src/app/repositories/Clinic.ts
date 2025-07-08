@@ -13,23 +13,23 @@ export class ClinicRepository implements IClinicRepository {
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOneBy({ id_clinica: id });
+    return await this.repository.findOne({ where: { id_clinica: id }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<IClinic> | FindOptionsWhere<IClinic>[],
   ): Promise<Clinic[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IClinic> | FindOptionsWhere<IClinic>[],
   ): Promise<Clinic | undefined> {
-    return await this.repository.findOneBy(query);
+    return await this.repository.findOne({ where: { ...query }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 
   async update(id: number, data: Partial<IClinic>) {

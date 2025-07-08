@@ -13,23 +13,23 @@ export class UserRepository implements IUsuarioRepository {
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['agendamentos_paciente', 'agendamentos_profissional', 'conexoes_clinicas', 'documentos_enviados', 'documentos_recebidos', 'exames_agendados'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOneBy({ id_usuario: id });
+    return await this.repository.findOne({ where: { id_usuario: id }, relations: ['agendamentos_paciente', 'agendamentos_profissional', 'conexoes_clinicas', 'documentos_enviados', 'documentos_recebidos', 'exames_agendados'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<IUsuario> | FindOptionsWhere<IUsuario>[],
   ): Promise<Usuario[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['agendamentos_paciente', 'agendamentos_profissional', 'conexoes_clinicas', 'documentos_enviados', 'documentos_recebidos', 'exames_agendados'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IUsuario> | FindOptionsWhere<IUsuario>[],
   ): Promise<Usuario | undefined> {
-    return await this.repository.findOneBy(query);
+    return await this.repository.findOne({ where: { ...query }, relations: ['agendamentos_paciente', 'agendamentos_profissional', 'conexoes_clinicas', 'documentos_enviados', 'documentos_recebidos', 'exames_agendados'] });
   }
 
   async update(id: number, data: Partial<IUsuario>) {

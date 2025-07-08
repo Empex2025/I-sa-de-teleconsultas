@@ -1,4 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId,
+} from 'typeorm';
+import { Usuario } from './Usuario';
+import { AgendamentoConsulta } from './AgendamentoConsulta';
 
 @Entity('documentos')
 export class Documento {
@@ -17,14 +28,26 @@ export class Documento {
   @Column()
   criado_na_plataforma: boolean;
 
-  @Column()
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'paciente_id' })
+  paciente: Usuario;
+
+  @RelationId((doc: Documento) => doc.paciente)
+  paciente_id: number;
+
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'profissional_id' })
+  profissional: Usuario;
+
+  @RelationId((doc: Documento) => doc.profissional)
+  profissional_id: number;
+
+  @ManyToOne(() => AgendamentoConsulta)
+  @JoinColumn({ name: 'consulta_id' })
+  consulta: AgendamentoConsulta;
+
+  @RelationId((doc: Documento) => doc.consulta)
   consulta_id: number;
-
-  @Column({ length: 11, nullable: true })
-  profissional_id: string;
-
-  @Column({ length: 11 })
-  paciente_id: string;
 
   @Column({ default: true })
   visivel_paciente: boolean;

@@ -1,15 +1,42 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId,
+} from 'typeorm';
+import { ExamPayment } from './ExamPayment';
+import { ClinicExam } from './ClinicExam';
+import { Usuario } from './Usuario';
 
 @Entity('exam_agendamentos')
 export class ExamAgendamento {
   @PrimaryGeneratedColumn()
   id_agendamento: number;
 
-  @Column()
+  @ManyToOne(() => Usuario)
+  @JoinColumn({ name: 'id_usuario_paciente' })
+  paciente: Usuario;
+
+  @RelationId((ag: ExamAgendamento) => ag.paciente)
   id_usuario_paciente: number;
 
-  @Column()
+  @ManyToOne(() => ClinicExam)
+  @JoinColumn({ name: 'id_exame' })
+  exame: ClinicExam;
+
+  @RelationId((ag: ExamAgendamento) => ag.exame)
   id_exame: number;
+
+  @ManyToOne(() => ExamPayment, { nullable: true })
+  @JoinColumn({ name: 'id_pagamento' })
+  pagamento: ExamPayment;
+
+  @RelationId((ag: ExamAgendamento) => ag.pagamento)
+  id_pagamento: number;
 
   @Column('timestamp')
   data_hora: Date;
@@ -34,9 +61,6 @@ export class ExamAgendamento {
 
   @Column({ default: false })
   atualizar_minha_saude: boolean;
-
-  @Column({ nullable: true })
-  id_pagamento: number;
 
   @CreateDateColumn()
   created_at: Date;

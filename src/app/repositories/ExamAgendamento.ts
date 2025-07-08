@@ -13,23 +13,23 @@ export class ExamAgendamentoRepository implements IExamAgendamentoRepository {
   }
 
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.find({ relations: ['paciente', 'pagamento', 'exame'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOneBy({ id_exame: id });
+    return await this.repository.findOne({ where: { id_agendamento: id }, relations: ['paciente', 'pagamento', 'exame'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<IExamAgendamento> | FindOptionsWhere<IExamAgendamento>[],
   ): Promise<ExamAgendamento[]> {
-    return await this.repository.findBy(query);
+    return await this.repository.find({ where: { ...query }, relations: ['paciente', 'pagamento', 'exame'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IExamAgendamento> | FindOptionsWhere<IExamAgendamento>[],
   ): Promise<ExamAgendamento | undefined> {
-    return await this.repository.findOneBy(query);
+    return await this.repository.findOne({ where: { ...query }, relations: ['paciente', 'pagamento', 'exame'] });
   }
 
   async update(id: number, data: Partial<IExamAgendamento>) {

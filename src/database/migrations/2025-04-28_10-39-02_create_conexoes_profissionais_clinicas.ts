@@ -1,22 +1,27 @@
-/* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class CreateConexoesProfissionaisClinicas1720000000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      CREATE TABLE t_conexoes_profissionais_clinicas (
+      CREATE TABLE conexoes_profissionais_clinicas (
         id_conexao SERIAL PRIMARY KEY,
-        id_profissional INT NOT NULL,
-        id_clinica INT NOT NULL,
+        id_profissional INTEGER NOT NULL,
+        id_clinica INTEGER NOT NULL,
         status VARCHAR(20) NOT NULL,
         data_convite TIMESTAMP DEFAULT NOW(),
-        data_aceite TIMESTAMP NULL,
-        mensagem VARCHAR(255) NULL
+        data_aceite TIMESTAMP,
+        mensagem VARCHAR(255),
+
+        CONSTRAINT fk_conexao_profissional FOREIGN KEY (id_profissional)
+          REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+
+        CONSTRAINT fk_conexao_clinica FOREIGN KEY (id_clinica)
+          REFERENCES clinics(id_clinica) ON DELETE CASCADE
       );
     `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query('DROP TABLE t_conexoes_profissionais_clinicas');
+    await queryRunner.query('DROP TABLE conexoes_profissionais_clinicas');
   }
 }

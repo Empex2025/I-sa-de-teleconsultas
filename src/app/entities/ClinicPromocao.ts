@@ -1,11 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  RelationId
+} from 'typeorm';
+import { Clinic } from './Clinic';
 
 @Entity('clinic_promotions')
 export class ClinicPromotion {
   @PrimaryGeneratedColumn()
   id_promocao: number;
 
-  @Column()
+  @ManyToOne(() => Clinic, clinic => clinic.promocoes, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'id_clinica' })
+  clinica: Clinic;
+
+  @RelationId((promotion: ClinicPromotion) => promotion.clinica)
   id_clinica: number;
 
   @Column({ length: 100 })
