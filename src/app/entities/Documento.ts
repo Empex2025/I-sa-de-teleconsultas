@@ -8,7 +8,6 @@ import {
   JoinColumn,
   RelationId,
 } from 'typeorm';
-import { Usuario } from './Usuario';
 import { AgendamentoConsulta } from './AgendamentoConsulta';
 
 @Entity('documentos')
@@ -28,18 +27,10 @@ export class Documento {
   @Column()
   criado_na_plataforma: boolean;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'paciente_id' })
-  paciente: Usuario;
-
-  @RelationId((doc: Documento) => doc.paciente)
+  @Column()
   paciente_id: number;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'profissional_id' })
-  profissional: Usuario;
-
-  @RelationId((doc: Documento) => doc.profissional)
+  @Column()
   profissional_id: number;
 
   @ManyToOne(() => AgendamentoConsulta)

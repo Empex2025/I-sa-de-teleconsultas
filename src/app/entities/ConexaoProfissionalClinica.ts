@@ -7,7 +7,6 @@ import {
   JoinColumn,
   RelationId,
 } from 'typeorm';
-import { Usuario } from './Usuario';
 import { Clinic } from './Clinic';
 
 @Entity('conexoes_profissionais_clinicas')
@@ -15,11 +14,7 @@ export class ConexaoProfissionalClinica {
   @PrimaryGeneratedColumn()
   id_conexao: number;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'id_profissional' })
-  profissional: Usuario;
-
-  @RelationId((conexao: ConexaoProfissionalClinica) => conexao.profissional)
+  @Column()
   id_profissional: number;
 
   @ManyToOne(() => Clinic, clinic => clinic.conexoes)

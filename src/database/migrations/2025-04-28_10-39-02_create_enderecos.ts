@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class createEnderecosTable20250611 implements MigrationInterface {
+export class createEnderecosTable1689786456780 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE enderecos (

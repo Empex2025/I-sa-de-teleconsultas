@@ -8,7 +8,6 @@ import {
   JoinColumn,
   RelationId
 } from 'typeorm';
-import { Usuario } from './Usuario';
 import { Clinic } from './Clinic';
 
 @Entity('agendamentos_consultas')
@@ -16,18 +15,10 @@ export class AgendamentoConsulta {
   @PrimaryGeneratedColumn()
   id_consulta: number;
 
-  @ManyToOne(() => Usuario, { eager: false })
-  @JoinColumn({ name: 'id_usuario_paciente' })
-  paciente: Usuario;
-
-  @RelationId((consulta: AgendamentoConsulta) => consulta.paciente)
+  @Column()
   id_usuario_paciente: number;
 
-  @ManyToOne(() => Usuario, { eager: false })
-  @JoinColumn({ name: 'id_usuario_profissional' })
-  profissional: Usuario;
-
-  @RelationId((consulta: AgendamentoConsulta) => consulta.profissional)
+  @Column()
   id_usuario_profissional: number;
 
   @ManyToOne(() => Clinic, { eager: false })

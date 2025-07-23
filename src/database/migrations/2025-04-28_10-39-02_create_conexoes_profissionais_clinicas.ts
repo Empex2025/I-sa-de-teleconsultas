@@ -12,9 +12,6 @@ export class CreateConexoesProfissionaisClinicas1720000000000 implements Migrati
         data_aceite TIMESTAMP,
         mensagem VARCHAR(255),
 
-        CONSTRAINT fk_conexao_profissional FOREIGN KEY (id_profissional)
-          REFERENCES usuario(id_usuario) ON DELETE CASCADE,
-
         CONSTRAINT fk_conexao_clinica FOREIGN KEY (id_clinica)
           REFERENCES clinics(id_clinica) ON DELETE CASCADE
       );

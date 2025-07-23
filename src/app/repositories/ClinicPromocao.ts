@@ -7,7 +7,7 @@ import { IClinicPromotionRepository } from '../interfaces/repositories/clinicRep
 export class ClinicPromocaoRepository implements IClinicPromotionRepository {
   private repository: Repository<ClinicPromotion> = dataSource.getRepository(ClinicPromotion);
 
-  async save(data: IClinicPromotion) {
+  async save(data: IClinicPromotion & { clinica: { id_clinica: number } }) {
     const clinic = this.repository.create(data);
     return await this.repository.save(clinic);
   }

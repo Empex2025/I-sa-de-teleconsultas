@@ -17,28 +17,28 @@ export class DocumentoRepository implements IDocumentoRepository {
   }
 
   async findAll(): Promise<Documento[]> {
-    return await this.repository.find({ relations: ['paciente', 'profissional', 'consulta'] });
+    return await this.repository.find({ relations: ['consulta'] });
   }
 
   async findById(id_documento: number): Promise<Documento | null> {
-    return await this.repository.findOne({ where: { id_documento }, relations: ['paciente', 'profissional', 'consulta'] });
+    return await this.repository.findOne({ where: { id_documento }, relations: ['consulta'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
   ): Promise<Documento[]> {
-    return await this.repository.find({ where: { ...query }, relations: ['paciente', 'profissional', 'consulta'] });
+    return await this.repository.find({ where: { ...query }, relations: ['consulta'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
   ): Promise<Documento | undefined> {
-    return await this.repository.findOne({ where: { ...query }, relations: ['paciente', 'profissional', 'consulta'] });
+    return await this.repository.findOne({ where: { ...query }, relations: ['consulta'] });
   }
 
   async update(id_documento: number, data: Partial<Documento>) {
     await this.repository.update(id_documento, data);
-    return this.findById(id_documento);
+    return await this.findById(id_documento);
   }
 
   async delete(id_documento: number) {

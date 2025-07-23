@@ -4,7 +4,7 @@ import { ExamPayment } from '../entities';
 import { IExamPayment } from '../interfaces/exam';
 import { IExamPaymentRepository } from '../interfaces/repositories/examRepository';
 
-export class ExamAgendamentoRepository implements IExamPaymentRepository {
+export class ExamPaymentRepository implements IExamPaymentRepository {
   private repository: Repository<ExamPayment> = dataSource.getRepository(ExamPayment);
 
   async save(data: IExamPayment) {

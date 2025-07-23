@@ -5,7 +5,6 @@ import { ClinicPromotion } from './ClinicPromocao';
 import { Documento } from './Documento';
 import { ExamAgendamento } from './ExamAgendamento';
 import { ExamPayment } from './ExamPayment';
-import { Usuario } from './Usuario';
 import { ConexaoProfissionalClinica } from './ConexaoProfissionalClinica';
 import { Avaliacao } from './Avaliacao';
 import { Endereco } from './Enderecos';
@@ -18,7 +17,6 @@ export {
   Documento,
   ExamAgendamento,
   ExamPayment,
-  Usuario,
   ConexaoProfissionalClinica,
   Avaliacao,
   Endereco

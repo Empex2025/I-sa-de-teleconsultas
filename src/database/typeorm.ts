@@ -8,20 +8,20 @@ import {
   Documento,
   ExamAgendamento,
   ExamPayment,
-  Usuario,
-  ConexaoProfissionalClinica
+  ConexaoProfissionalClinica,
+  Avaliacao,
+  Endereco
 } from '../app/entities';
 
-import { createUsuarioTable20250611 } from './migrations/2025-04-28_10-39-00_create_usuario';
-import { createAgendamentosConsultasTable20250611 } from './migrations/2025-04-28_10-39-01_create_agendamentos_consultas';
-import { createClinicsTable20250611 } from './migrations/2025-04-28_10-39-01_create_clinics';
-import { createDocumentosTable20250611 } from './migrations/2025-04-28_10-39-01_create_documentos';
-import { createAvaliacoesTable20250611 } from './migrations/2025-04-28_10-39-02_create_avaliacoes';
-import { createClinicExamsTable20250611 } from './migrations/2025-04-28_10-39-02_create_clinic_exams';
-import { createClinicPromotionsTable20250611 } from './migrations/2025-04-28_10-39-02_create_clinic_promotions';
-import { createEnderecosTable20250611 } from './migrations/2025-04-28_10-39-02_create_enderecos';
-import { createExamAgendamentosTable20250611 } from './migrations/2025-04-28_10-39-02_create_exam_agendamentos';
-import { createExamPaymentsTable20250611 } from './migrations/2025-04-28_10-39-02_create_exam_payments';
+import { CreateAgendamentosConsultasTable1689786456780 } from './migrations/2025-04-28_10-39-01_create_agendamentos_consultas';
+import { createClinicsTable1689786456780 } from './migrations/2025-04-28_10-39-00_create_clinics';
+import { createDocumentosTable1689786456780 } from './migrations/2025-04-28_10-39-01_create_documentos';
+import { createAvaliacoesTable1689786456780 } from './migrations/2025-04-28_10-39-02_create_avaliacoes';
+import { createClinicExamsTable1689786456780 } from './migrations/2025-04-28_10-39-02_create_clinic_exams';
+import { createClinicPromotionsTable1689786456780 } from './migrations/2025-04-28_10-39-02_create_clinic_promotions';
+import { createEnderecosTable1689786456780 } from './migrations/2025-04-28_10-39-02_create_enderecos';
+import { createExamAgendamentosTable16897864567801 } from './migrations/2025-04-28_10-39-02_create_exam_agendamentos';
+import { createExamPaymentsTable1689786456780 } from './migrations/2025-04-28_10-39-02_create_exam_payments';
 import { CreateConexoesProfissionaisClinicas1720000000000 } from './migrations/2025-04-28_10-39-02_create_conexoes_profissionais_clinicas';
 
 require('dotenv').config();
@@ -41,21 +41,21 @@ const dataSource = new DataSource({
     Documento,
     ExamAgendamento,
     ExamPayment,
-    Usuario,
-    ConexaoProfissionalClinica
+    ConexaoProfissionalClinica,
+    Avaliacao,
+    Endereco
   ],
   migrations: [
-    createUsuarioTable20250611,
-    createAgendamentosConsultasTable20250611,
-    createClinicsTable20250611,
-    createDocumentosTable20250611,
-    createAvaliacoesTable20250611,
-    createClinicExamsTable20250611,
-    createClinicPromotionsTable20250611,
-    createEnderecosTable20250611,
-    createExamAgendamentosTable20250611,
-    createExamPaymentsTable20250611,
-    CreateConexoesProfissionaisClinicas1720000000000
+    createClinicsTable1689786456780,
+    CreateAgendamentosConsultasTable1689786456780,
+    createExamAgendamentosTable16897864567801,
+    createDocumentosTable1689786456780,
+    createClinicExamsTable1689786456780,
+    createClinicPromotionsTable1689786456780,
+    createEnderecosTable1689786456780,
+    createExamPaymentsTable1689786456780,
+    CreateConexoesProfissionaisClinicas1720000000000,
+    createAvaliacoesTable1689786456780,
   ],
 });
 

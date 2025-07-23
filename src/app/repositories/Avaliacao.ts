@@ -13,26 +13,26 @@ export class AvaliacaoRepository implements IAvaliacaoConsultaRepository {
   }
 
   async findAll() {
-    return await this.repository.find({ relations: ['paciente', 'consulta', 'exame', 'profissional', 'unidade',] });
+    return await this.repository.find({ relations: ['consulta', 'exame', 'unidade',] });
   }
 
   async findById(id: number) {
     return await this.repository.findOne({
       where: { id_avaliacao: id },
-      relations: ['paciente', 'consulta', 'exame', 'profissional', 'unidade',],
+      relations: ['consulta', 'exame', 'unidade',],
     });;
   }
 
   async findByQuery(
     query: FindOptionsWhere<IAvaliacao> | FindOptionsWhere<IAvaliacao>[],
   ): Promise<Avaliacao[]> {
-    return await this.repository.find({ where: { ...query }, relations: ['paciente', 'consulta', 'exame', 'profissional', 'unidade',] });
+    return await this.repository.find({ where: { ...query }, relations: ['consulta', 'exame', 'unidade',] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IAvaliacao> | FindOptionsWhere<IAvaliacao>[],
   ): Promise<Avaliacao | undefined> {
-    const response = await this.repository.findOne({ where: { ...query }, relations: ['paciente', 'consulta', 'exame', 'profissional', 'unidade',] });
+    const response = await this.repository.findOne({ where: { ...query }, relations: ['consulta', 'exame', 'unidade',] });
     return response
   }
 

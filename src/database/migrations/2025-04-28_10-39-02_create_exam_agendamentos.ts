@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class createExamAgendamentosTable20250611 implements MigrationInterface {
+export class createExamAgendamentosTable16897864567801 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE exam_agendamentos (
@@ -19,9 +19,6 @@ export class createExamAgendamentosTable20250611 implements MigrationInterface {
         id_pagamento INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-        CONSTRAINT fk_exam_agendamento_paciente FOREIGN KEY (id_usuario_paciente)
-          REFERENCES usuario(id_usuario) ON DELETE CASCADE,
 
         CONSTRAINT fk_exam_agendamento_exame FOREIGN KEY (id_exame)
           REFERENCES clinic_exams(id_exame) ON DELETE CASCADE,

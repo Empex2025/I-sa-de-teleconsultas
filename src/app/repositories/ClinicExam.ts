@@ -7,7 +7,7 @@ import { IClinicExamRepository } from '../interfaces/repositories/clinicReposito
 export class ClinicExamRepository implements IClinicExamRepository {
   private repository: Repository<ClinicExam> = dataSource.getRepository(ClinicExam);
 
-  async save(data: IClinicExam) {
+  async save(data: IClinicExam & { clinica: { id_clinica: number } }) {
     const clinic = this.repository.create(data);
     return await this.repository.save(clinic);
   }

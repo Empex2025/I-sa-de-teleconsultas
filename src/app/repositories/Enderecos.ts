@@ -7,7 +7,7 @@ import { IEnderecoConsultaRepository } from '../interfaces/repositories/endereco
 export class EnderecoRepository implements IEnderecoConsultaRepository {
   private repository: Repository<Endereco> = dataSource.getRepository(Endereco);
 
-  async save(data: IEndereco) {
+  async save(data: IEndereco & { clinica: { id_clinica: number } }) {
     const agendamento = this.repository.create(data);
     return await this.repository.save(agendamento);
   }

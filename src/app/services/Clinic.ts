@@ -1,14 +1,16 @@
-import { Repository, FindOptionsWhere } from 'typeorm';
-import dataSource from '../../database/typeorm';
-import { Clinic } from '../entities/Clinic';
 import { IClinic } from '../interfaces/clinic';
 import { CLINIC_FIELDS } from '../utils/listOfFields';
 import { filterProps } from '../utils/filterProps';
+import { ClinicRepository } from "../repositories/Clinic";
 
-export class ClinicRepository {
-  private repository: Repository<Clinic> = dataSource.getRepository(Clinic);
+export class ClinicService {
+  private repository: ClinicRepository
 
-  async save(data: IClinic) {
+  constructor() {
+    this.repository = new ClinicRepository();
+  }
+
+  async createClinic(data: IClinic) {
     const dataFilter = filterProps(data, [...CLINIC_FIELDS] as (keyof IClinic)[])
 
     if (
@@ -16,38 +18,69 @@ export class ClinicRepository {
       !dataFilter.cnpj ||
       !dataFilter.email ||
       !dataFilter.especialidades ||
+      !dataFilter.especialidades ||
       !dataFilter.estado ||
       !dataFilter.infraestrutura ||
       !dataFilter.nome_fantasia ||
-      !dataFilter.telefone 
+      !dataFilter.telefone
     ) {
-      throw new Error('Campos obrigatórios ausentes: user_id');
+      throw new Error('Campos obrigatórios ausentes');
     }
 
-    const clinic = this.repository.create(dataFilter);
+    const clinic = await this.repository.save(dataFilter);
 
-    return await this.repository.save(clinic);
+    return clinic
   }
 
-  async find() {
-    return await this.repository.find();
+  async getClinics({ queries, id }: { queries?: any; id?: number }) {
+    let resultItems: any = null;
+
+    if (queries && id) {
+      resultItems = await this.repository.findByQueryOne({ ...queries, id_clinica: id });
+      return resultItems;
+    }
+
+    if (queries) {
+      resultItems = await this.repository.findByQuery({ ...queries });
+    }
+
+    if (id) {
+      resultItems = await this.repository.findById(id);
+    }
+
+    if (queries || id) {
+      return resultItems;
+    }
+
+    resultItems = await this.repository.findAll();
+    return resultItems;
   }
 
-  async findById(id: number) {
-    return await this.repository.findOneBy({ id_clinica: id });
-  }
-
-  async update(id: number, data: Partial<IClinic>) {
-    const clinic = await this.findById(id);
+  async updateClinic(id: number, data: Partial<IClinic>) {
+    const clinic = await this.repository.findById(id);
+    const dataFilter = filterProps(data, [...CLINIC_FIELDS] as (keyof IClinic)[])
     if (!clinic) return null;
-    Object.assign(clinic, data);
-    return await this.repository.save(clinic);
+   if (
+      !dataFilter.cidade ||
+      !dataFilter.cnpj ||
+      !dataFilter.email ||
+      !dataFilter.especialidades ||
+      !dataFilter.especialidades ||
+      !dataFilter.estado ||
+      !dataFilter.infraestrutura ||
+      !dataFilter.nome_fantasia ||
+      !dataFilter.telefone
+    ) {
+      throw new Error('Campos obrigatórios ausentes');
+    }
+
+    return await this.repository.update(id, dataFilter);
   }
 
-  async delete(id: number) {
-    const clinic = await this.findById(id);
+  async deleteExam(id: number) {
+    const clinic = await this.repository.findById(id);
     if (!clinic) return null;
-    await this.repository.remove(clinic);
+    await this.repository.delete(id);
     return null;
   }
 }

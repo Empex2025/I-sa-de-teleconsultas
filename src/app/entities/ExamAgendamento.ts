@@ -10,18 +10,13 @@ import {
 } from 'typeorm';
 import { ExamPayment } from './ExamPayment';
 import { ClinicExam } from './ClinicExam';
-import { Usuario } from './Usuario';
 
 @Entity('exam_agendamentos')
 export class ExamAgendamento {
   @PrimaryGeneratedColumn()
   id_agendamento: number;
 
-  @ManyToOne(() => Usuario)
-  @JoinColumn({ name: 'id_usuario_paciente' })
-  paciente: Usuario;
-
-  @RelationId((ag: ExamAgendamento) => ag.paciente)
+  @Column()
   id_usuario_paciente: number;
 
   @ManyToOne(() => ClinicExam)

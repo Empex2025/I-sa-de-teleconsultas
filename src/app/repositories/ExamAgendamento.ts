@@ -7,29 +7,29 @@ import { IExamAgendamentoRepository } from '../interfaces/repositories/examRepos
 export class ExamAgendamentoRepository implements IExamAgendamentoRepository {
   private repository: Repository<ExamAgendamento> = dataSource.getRepository(ExamAgendamento);
 
-  async save(data: IExamAgendamento) {
+  async save(data: IExamAgendamento & { clinica: { id_clinica: number }, exame: {id_exame: number } }) {
     const clinic = this.repository.create(data);
     return await this.repository.save(clinic);
   }
 
   async findAll() {
-    return await this.repository.find({ relations: ['paciente', 'pagamento', 'exame'] });
+    return await this.repository.find({ relations: ['pagamento', 'exame'] });
   }
 
   async findById(id: number) {
-    return await this.repository.findOne({ where: { id_agendamento: id }, relations: ['paciente', 'pagamento', 'exame'] });
+    return await this.repository.findOne({ where: { id_agendamento: id }, relations: ['pagamento', 'exame'] });
   }
 
   async findByQuery(
     query: FindOptionsWhere<IExamAgendamento> | FindOptionsWhere<IExamAgendamento>[],
   ): Promise<ExamAgendamento[]> {
-    return await this.repository.find({ where: { ...query }, relations: ['paciente', 'pagamento', 'exame'] });
+    return await this.repository.find({ where: { ...query }, relations: ['pagamento', 'exame'] });
   }
 
   async findByQueryOne(
     query: FindOptionsWhere<IExamAgendamento> | FindOptionsWhere<IExamAgendamento>[],
   ): Promise<ExamAgendamento | undefined> {
-    return await this.repository.findOne({ where: { ...query }, relations: ['paciente', 'pagamento', 'exame'] });
+    return await this.repository.findOne({ where: { ...query }, relations: ['pagamento', 'exame'] });
   }
 
   async update(id: number, data: Partial<IExamAgendamento>) {

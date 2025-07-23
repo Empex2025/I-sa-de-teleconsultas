@@ -9,6 +9,7 @@ export const AGENDAMENTO_CONSULTA_FIELDS = [
   "motivo",
   "link_sala",
   "comentarios",
+  "clinica"
 ] as const;
 
 // Clinic
@@ -53,6 +54,7 @@ export const DOCUMENTO_FIELDS = [
   "paciente_id",
   "visivel_paciente",
   "observacoes",
+  "consulta"
 ] as const;
 
 // ExamAgendamento
@@ -68,6 +70,7 @@ export const EXAM_AGENDAMENTO_FIELDS = [
   "pressao_diastolica",
   "atualizar_minha_saude",
   "id_pagamento",
+  'id_clinica',
 ] as const;
 
 // ExamPayment
@@ -93,3 +96,37 @@ export const USUARIO_FIELDS = [
   "is_ativo",
   "descricao_bio",
 ] as const;
+
+export const AVALIACAO_FIELDS = [
+  "paciente_cpf",
+  "consulta_id",
+  "exame_id",
+  "profissional_cpf",
+  "unidade_id",
+  "nota",
+  "comentario",
+  "dt_avaliacao",
+] as const;
+
+export const CONEXAO_PROFISSIONAL_CLINICA_FIELDS = [
+  "id_profissional",
+  "id_clinica",
+  "status",
+  "data_convite",
+  "data_aceite",
+  "mensagem",
+] as const;
+
+export const ENDERECO_FIELDS = [
+  "id_clinica",
+  "cep",
+  "logradouro",
+  "numero",
+  "complemento",
+  "bairro",
+  "cidade",
+  "estado",
+  "pais",
+] as const;
+
+

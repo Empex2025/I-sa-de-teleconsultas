@@ -8,7 +8,6 @@ import {
   JoinColumn,
   RelationId,
 } from 'typeorm';
-import { Usuario } from './Usuario';
 import { AgendamentoConsulta } from './AgendamentoConsulta';
 import { Documento } from './Documento';
 import { Clinic } from './Clinic';
@@ -18,12 +17,8 @@ export class Avaliacao {
   @PrimaryGeneratedColumn()
   id_avaliacao: number;
 
-  @ManyToOne(() => Usuario, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'paciente_id', referencedColumnName: 'cpf' })
-  paciente: Usuario;
-
-  @RelationId((avaliacao: Avaliacao) => avaliacao.paciente)
-  paciente_id: string;
+  @Column()
+  paciente_cpf: string;
 
   @ManyToOne(() => AgendamentoConsulta, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'consulta_id' })
@@ -39,12 +34,8 @@ export class Avaliacao {
   @RelationId((avaliacao: Avaliacao) => avaliacao.exame)
   exame_id: number;
 
-  @ManyToOne(() => Usuario, { nullable: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'profissional_id', referencedColumnName: 'cpf' })
-  profissional: Usuario;
-
-  @RelationId((avaliacao: Avaliacao) => avaliacao.profissional)
-  profissional_id: string;
+  @Column()
+  profissional_cpf: string;
 
   @ManyToOne(() => Clinic, { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'unidade_id', referencedColumnName: 'cnpj' })

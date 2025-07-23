@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class createDocumentosTable20250611 implements MigrationInterface {
+export class createDocumentosTable1689786456780 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       CREATE TABLE documentos (
@@ -19,13 +19,7 @@ export class createDocumentosTable20250611 implements MigrationInterface {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
         CONSTRAINT fk_documento_consulta FOREIGN KEY (consulta_id)
-          REFERENCES agendamentos_consultas(id_consulta) ON DELETE CASCADE,
-
-        CONSTRAINT fk_documento_profissional FOREIGN KEY (profissional_id)
-          REFERENCES usuario(cpfcnpj) ON DELETE SET NULL,
-
-        CONSTRAINT fk_documento_paciente FOREIGN KEY (paciente_id)
-          REFERENCES usuario(cpfcnpj) ON DELETE CASCADE
+          REFERENCES agendamentos_consultas(id_consulta) ON DELETE CASCADE
       );
     `);
   }
