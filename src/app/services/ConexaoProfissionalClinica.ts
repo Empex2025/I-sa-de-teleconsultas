@@ -23,8 +23,6 @@ export class ConexaoProfissionalClinicaService {
       throw new Error('Campos obrigatórios ausentes');
     }
 
-    console.log(dataFilter)
-
     const agendamento = await this.repository.save({ ...dataFilter, clinica: { id_clinica: dataFilter.id_clinica } });
 
     return agendamento

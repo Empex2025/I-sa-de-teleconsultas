@@ -23,7 +23,6 @@ export class AgendamentosConsultaService {
       !dataFilter.motivo ||
       !dataFilter.tipo_consulta
     ) {
-      console.log(dataFilter)
       return { message: 'Campos obrigatórios ausentes' }
     }
 

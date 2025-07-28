@@ -13,8 +13,6 @@ export class ExamAgendamentoService {
   async createExamAgendamento(data: IExamAgendamento) {
     const dataFilter = filterProps(data, [...EXAM_AGENDAMENTO_FIELDS] as (keyof IExamAgendamento)[])
 
-    console.log(dataFilter)
-
     if (
       !dataFilter.id_clinica ||
       !dataFilter.altura_m ||
