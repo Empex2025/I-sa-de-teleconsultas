@@ -23,16 +23,16 @@ const router = express.Router();
 router.get('/', authentication, DefaultControllersUsers)
 router.get('/api', authentication, DefaultControllersUsers)
 
-router.use('/api/agendamento-consulta', AgendamentoConsultaRoutes);
-router.use('/api/avaliacao', AvaliacaoRoutes);
-router.use('/api/clinic', Clinic);
-router.use('/api/exam', ClinicExamRoutes);
-router.use('/api/agendamento', ExamAgendamentoRoutes);
-router.use('/api/promocao', ClinicPromocaoRoutes);
-router.use('/api/payment', ExamPaymentRoutes);
-router.use('/api/conexao-profissional-clinic', ConexaoProfissionalClinicaRoutes);
-router.use('/api/document', DocumentRoutes);
-router.use('/api/endereco', EnderecosRoutes);
+router.use('/api/agendamento-consulta', authentication, AgendamentoConsultaRoutes);
+router.use('/api/avaliacao', authentication, AvaliacaoRoutes);
+router.use('/api/clinic', authentication, Clinic);
+router.use('/api/exam', authentication, ClinicExamRoutes);
+router.use('/api/agendamento', authentication, ExamAgendamentoRoutes);
+router.use('/api/promocao', authentication, ClinicPromocaoRoutes);
+router.use('/api/payment', authentication, ExamPaymentRoutes);
+router.use('/api/conexao-profissional-clinic', authentication, ConexaoProfissionalClinicaRoutes);
+router.use('/api/document', authentication, DocumentRoutes);
+router.use('/api/endereco', authentication, EnderecosRoutes);
 
 router.use('/api/upload-files', UploadRoutes);
 
