@@ -9,6 +9,7 @@ export class createExamPaymentsTable1689786456780 implements MigrationInterface 
         metodo_pagamento VARCHAR(50) NOT NULL,
         tipo VARCHAR(50) NOT NULL,
         valor NUMERIC(10,2) NOT NULL CHECK (valor >= 0),
+        id_mp_payment INTEGER NOT NULL,
         parcelas INTEGER,
         status VARCHAR(20) DEFAULT 'Confirmado',
         data_pagamento TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

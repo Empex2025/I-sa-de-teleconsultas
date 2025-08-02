@@ -21,14 +21,62 @@ export class ClinicRepository implements IClinicRepository {
   }
 
   async findByQuery(
-    query: FindOptionsWhere<IClinic> | FindOptionsWhere<IClinic>[],
+    query: FindOptionsWhere<IClinic> & { skip: number; take: number; order: any; } | FindOptionsWhere<IClinic>[] & { skip: number; take: number; order: any; },
   ): Promise<Clinic[]> {
+    const objectFilter = { skip: query.skip, take: query.take, order: query.order }
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.find({ ...objectFilter });
+    }
+
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.find({ where: { ...query }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'], ...objectFilter });
+    }
     return await this.repository.find({ where: { ...query }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 
   async findByQueryOne(
-    query: FindOptionsWhere<IClinic> | FindOptionsWhere<IClinic>[],
+    query: any,
   ): Promise<Clinic | undefined> {
+    const objectFilter = { skip: query.skip, take: query.take, order: query.order }
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    console.log("Object Filter:", query);
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.findOne({ ...objectFilter });
+    }
+
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.findOne({ where: { ...query }, relations: ['clinica'], ...objectFilter });
+    }
     return await this.repository.findOne({ where: { ...query }, relations: ['exames', 'promocoes', 'agendamentos', 'conexoes', 'enderecos'] });
   }
 

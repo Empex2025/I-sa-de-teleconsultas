@@ -17,7 +17,7 @@ async function createClinic(req: Request, res: Response) {
       return res.status(500).json({ message: result?.message });
     }
 
-    return res.status(201).json({ result, message: "Agendamento criado com sucesso" });
+    return res.status(201).json({ result, message: "Clinica criada com sucesso" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

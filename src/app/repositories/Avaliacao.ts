@@ -24,14 +24,61 @@ export class AvaliacaoRepository implements IAvaliacaoConsultaRepository {
   }
 
   async findByQuery(
-    query: FindOptionsWhere<IAvaliacao> | FindOptionsWhere<IAvaliacao>[],
+    query: FindOptionsWhere<IAvaliacao> & { skip: number; take: number; order: any; } | FindOptionsWhere<IAvaliacao>[] & { skip: number; take: number; order: any; },
   ): Promise<Avaliacao[]> {
+    const objectFilter = { skip: query.skip, take: query.take, order: query.order }
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.find({ ...objectFilter });
+    }
+
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.find({ where: { ...query }, relations: ['consulta', 'exame', 'unidade'], ...objectFilter });
+    }
     return await this.repository.find({ where: { ...query }, relations: ['consulta', 'exame', 'unidade',] });
   }
 
   async findByQueryOne(
-    query: FindOptionsWhere<IAvaliacao> | FindOptionsWhere<IAvaliacao>[],
+    query: any,
   ): Promise<Avaliacao | undefined> {
+    const objectFilter = { skip: query.skip, take: query.take, order: query.order }
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.findOne({ ...objectFilter });
+    }
+
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.findOne({ where: { ...query }, relations: ['clinica'], ...objectFilter });
+    }
     const response = await this.repository.findOne({ where: { ...query }, relations: ['consulta', 'exame', 'unidade',] });
     return response
   }

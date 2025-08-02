@@ -1,15 +1,15 @@
 
 import { Request, Response } from 'express';
-import { ExamAgendamentoService } from "../../services/ExamAgendamento";
+import { ExamPaymentService } from "../../services/ExamPayment";
 
 async function deleteExamPayment(req: Request, res: Response) {
   try {
     const { id } = req.params
-    const getService = new ExamAgendamentoService();
+    const getService = new  ExamPaymentService();
 
     const getId= parseInt(id)
 
-    const result: any = await getService.deleteExamAgendamento(getId)
+    const result: any = await getService.deleteExamPayment(getId)
 
     if (result?.message == 'Campos obrigatórios ausentes') {
       return res.status(400).json({ message: result?.message });

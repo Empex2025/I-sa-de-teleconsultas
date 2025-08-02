@@ -25,14 +25,61 @@ export class DocumentoRepository implements IDocumentoRepository {
   }
 
   async findByQuery(
-    query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
+    query: FindOptionsWhere<Documento> & { skip: number; take: number; order: any; } | FindOptionsWhere<Documento>[] & { skip: number; take: number; order: any; },
   ): Promise<Documento[]> {
+    const objectFilter = { skip: query.skip, take: query.take, order: query.order };
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.find({ ...objectFilter });
+    }
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.find({ where: { ...query }, relations: ['consulta'], ...objectFilter });
+    }
     return await this.repository.find({ where: { ...query }, relations: ['consulta'] });
   }
 
   async findByQueryOne(
-    query: FindOptionsWhere<Documento> | FindOptionsWhere<Documento>[],
+    query: any,
   ): Promise<Documento | undefined> {
+        const objectFilter = { skip: query.skip, take: query.take, order: query.order }
+
+    if (!query.skip) {
+      delete objectFilter.skip
+    }
+    if (!query.take) {
+      delete objectFilter.take
+    }
+    if (!query.order) {
+      delete objectFilter.order
+    }
+    delete query.skip;
+    delete query.take;
+    delete query.order;
+
+    console.log("Object Filter:", query);
+
+    if ((objectFilter.skip || objectFilter.take || objectFilter.order) && Object.keys(query).length == 0) {
+      return await this.repository.findOne({ ...objectFilter });
+    }
+
+
+    if (objectFilter.skip || objectFilter.take || objectFilter.order) {
+      return await this.repository.findOne({ where: { ...query }, relations: ['clinica'], ...objectFilter });
+    }
     return await this.repository.findOne({ where: { ...query }, relations: ['consulta'] });
   }
 

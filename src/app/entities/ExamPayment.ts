@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('exam_payments')
 export class ExamPayment {
@@ -19,6 +19,9 @@ export class ExamPayment {
 
   @Column({ length: 20, default: 'Confirmado' })
   status: string;
+
+  @Column()
+  id_mp_payment: number;
 
   @CreateDateColumn()
   data_pagamento: Date;

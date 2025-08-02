@@ -1,13 +1,17 @@
 
 import { Request, Response } from 'express';
-import { ExamAgendamentoService } from "../../services/ExamAgendamento";
+import { ExamPaymentService } from "../../services/ExamPayment";
+import { MercadoPagoService } from 'src/app/services/APIPayments';
 
 async function createExamPayment(req: Request, res: Response) {
   try {
     const body = req.body
-    const getService = new ExamAgendamentoService();
+    const getService = new ExamPaymentService();
+    const newPaymentService = new MercadoPagoService();
 
-    const result: any = await getService.createExamAgendamento(body)
+    const result = await newPaymentService.createPayment({ ...req.body, amount: req.body.valor });
+
+    await getService.createExamPayment({ ...body, id_mp_payment: result.id });
 
     if (result?.message == 'Campos obrigatórios ausentes') {
       return res.status(400).json({ message: result?.message });
@@ -17,7 +21,7 @@ async function createExamPayment(req: Request, res: Response) {
       return res.status(500).json({ message: result?.message });
     }
 
-    return res.status(201).json({ result, message: "Agendamento criado com sucesso" });
+    return res.status(201).json({ result, message: "Pagamento criado com sucesso" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }

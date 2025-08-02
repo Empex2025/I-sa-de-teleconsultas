@@ -13,17 +13,6 @@ export class ExamPaymentService {
   async createExamPayment(data: IExamPayment) {
     const dataFilter = filterProps(data, [...EXAM_PAYMENT_FIELDS] as (keyof IExamPayment)[])
 
-    if (
-      !dataFilter.data_pagamento ||
-      !dataFilter.metodo_pagamento ||
-      !dataFilter.parcelas ||
-      !dataFilter.status ||
-      !dataFilter.tipo ||
-      !dataFilter.valor
-    ) {
-      throw new Error('Campos obrigatórios ausentes');
-    }
-
     const examAgendamento = await this.repository.save(dataFilter);
 
     return examAgendamento
