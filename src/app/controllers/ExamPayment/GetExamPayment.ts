@@ -1,6 +1,7 @@
 
 import { Request, Response } from 'express';
 import { ExamPaymentService } from "../../services/ExamPayment";
+import { MercadoPagoService } from 'src/app/services/APIPayments';
 
 async function getExamPayment(req: Request, res: Response) {
   try {
@@ -9,7 +10,9 @@ async function getExamPayment(req: Request, res: Response) {
     const queries = req.query
     const { id } = req.params
     const getService = new ExamPaymentService();
+    const newPaymentService = new MercadoPagoService();
     let results: any = null
+    let paymentMP: any = null
 
     const objectFilter: any = {};
 
@@ -34,6 +37,11 @@ async function getExamPayment(req: Request, res: Response) {
       delete objectFilter.queries.take
     } else {
       delete objectFilter.queries.limit
+    }
+
+    if (queries.idPayment) {
+      paymentMP = await newPaymentService.getPayment(String(queries.idPayment));
+      delete objectFilter.queries.idOrder
     }
 
     if (Object.keys(objectFilter).length > 0) {
@@ -64,7 +72,7 @@ async function getExamPayment(req: Request, res: Response) {
       return res.status(404).json({ message: "Payment not found" });
     }
 
-    return res.json({ ...pagination, results, });
+    return res.json({ ...pagination, paymentMP, results, });
   } catch (err) {
 
     return res.status(500).json({ message: err.message });

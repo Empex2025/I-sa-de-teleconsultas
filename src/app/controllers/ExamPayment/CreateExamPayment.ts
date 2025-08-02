@@ -11,7 +11,7 @@ async function createExamPayment(req: Request, res: Response) {
 
     const result = await newPaymentService.createPayment({ ...req.body, amount: req.body.valor });
 
-    await getService.createExamPayment({ ...body, id_mp_payment: result.id });
+    const resultMP = await getService.createExamPayment({ ...body, id_mp_payment: result.id });
 
     if (result?.message == 'Campos obrigatórios ausentes') {
       return res.status(400).json({ message: result?.message });
@@ -21,7 +21,7 @@ async function createExamPayment(req: Request, res: Response) {
       return res.status(500).json({ message: result?.message });
     }
 
-    return res.status(201).json({ result, message: "Pagamento criado com sucesso" });
+    return res.status(201).json({ result, resultMP, message: "Pagamento criado com sucesso" });
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
